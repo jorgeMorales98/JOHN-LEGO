@@ -1,0 +1,84 @@
+int MDT = 3;
+int MDA= 5;
+int MIT = 6;
+int MIA= 9;
+int T =7;
+int E =8;
+float S1 = A1; //INFRA derecho//
+float S2 = A2; //izquierda INFRA//
+
+void setup() {
+
+Serial.begin(9600);
+}
+
+void loop() {
+
+delay(5000); //tiempo de espera//
+//infrarrojo//
+float S1 = 0.004887*analogRead(1); //entrada analoga//
+float S2 = 0.004887*analogRead(2); //entrada analoga//
+
+//ULTRASONIDO//
+
+digitalWrite (T,LOW);
+delayMicroseconds (3);
+digitalWrite (T,HIGH);
+delayMicroseconds (10);
+digitalWrite (T,LOW);
+float tiempo= pulseIn (E,HIGH);
+float D = 0.017*tiempo;
+
+//mantenerce en el ring//
+
+ if (S1 <= 3.5 && S2<=3.5)
+   {                      //condicion sensores//
+
+analogWrite(MDT,200);
+digitalWrite(MDT, HIGH); //motor derecha//
+analogWrite(MIT,200);
+digitalWrite(MIT, HIGH); //motor izquierda//
+delay (1000);
+  } 
+else
+ {
+ if  (S1 <= 3.5 && S2>3.5) //linea Blanca//
+  {
+analogWrite(MIT,200);
+digitalWrite(MIT, HIGH); //motor izquierda//
+analogWrite(MDA,200);
+digitalWrite(MDA, HIGH); //motor DERECHA//
+delay (100);
+  }
+  else 
+  { 
+    if (S1 > 3.5 && S2<=3.5)
+    {
+    analogWrite(MDT,200);
+digitalWrite(MDT, HIGH); //motor derecha//
+    delay(100);
+    analogWrite(MIA,200);
+digitalWrite(MIA, HIGH); //motor izquierda//
+    }
+  else
+  {
+if(D <= 4)
+{
+  analogWrite(MDT,250);
+digitalWrite(MDT, HIGH); //motor derecha//
+analogWrite(MIT,250);
+digitalWrite(MIT, HIGH); //motor izquierda//
+delay (1000);
+ 
+ }
+ else {
+  analogWrite(MDT,200);
+digitalWrite(MDT, HIGH); //motor derecha//
+analogWrite(MIA,200);
+digitalWrite(MIA, HIGH); //motor izquierda//
+delay (100);
+  }
+ }
+ } //detecta derecho//
+}
+}
