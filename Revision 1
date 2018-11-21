@@ -4,20 +4,26 @@ int MIT = 6;
 int MIA= 9;
 int T =7;
 int E =8;
-float S1 = A1; //INFRA derecho//
-float S2 = A2; //izquierda INFRA//
+float S1; //INFRA derecho adelate//
+float S2; //infrarrojo atras derecho//
+float S3; //izquierda INFRA adelante//
+float S4; //izquierda INFRA atras//
 
 void setup() {
-
+pinMode(T,OUTPUT);
+pinMode(E,INPUT);
 Serial.begin(9600);
 }
 
 void loop() {
 
 delay(5000); //tiempo de espera//
+
 //infrarrojo//
 float S1 = 0.004887*analogRead(1); //entrada analoga//
 float S2 = 0.004887*analogRead(2); //entrada analoga//
+float S3 = 0.004887*analogRead(3);
+float S4 = 0.004887*analogRead(4);
 
 //ULTRASONIDO//
 
@@ -30,55 +36,93 @@ float tiempo= pulseIn (E,HIGH);
 float D = 0.017*tiempo;
 
 //mantenerce en el ring//
-
- if (S1 <= 3.5 && S2<=3.5)
-   {                      //condicion sensores//
-
-analogWrite(MDT,200);
-digitalWrite(MDT, HIGH); //motor derecha//
-analogWrite(MIT,200);
-digitalWrite(MIT, HIGH); //motor izquierda//
-delay (1000);
-  } 
-else
+ //condicion sensores//
+ if (S1 <= 3.5 && S3 <= 3.5) { //deteccion negro//
+  
+analogWrite(MDT,250);
+digitalWrite(MDT, HIGH);
+analogWrite(MIT,250);
+digitalWrite(MIT, HIGH);
+delay (150);
+ }
+ else //sensor atras// 
  {
- if  (S1 <= 3.5 && S2>3.5) //linea Blanca//
-  {
-analogWrite(MIT,200);
-digitalWrite(MIT, HIGH); //motor izquierda//
-analogWrite(MDA,200);
-digitalWrite(MDA, HIGH); //motor DERECHA//
-delay (100);
+  if (S3 < 3.5 ){
+
+     analogWrite(MIT,250);
+digitalWrite(MIT, HIGH);
+delay (150);
   }
-  else 
-  { 
-    if (S1 > 3.5 && S2<=3.5)
-    {
-    analogWrite(MDT,200);
-digitalWrite(MDT, HIGH); //motor derecha//
-    delay(100);
-    analogWrite(MIA,200);
-digitalWrite(MIA, HIGH); //motor izquierda//
-    }
-  else
-  {
-if(D <= 4)
+else //sensor adelante// 
+{ 
+
+if (S1 < 3.5 ){   
+analogWrite(MIA,250);
+digitalWrite(MIA, HIGH);
+delay (150);
+}
+
+else // Se sores en zona negra//
 {
   analogWrite(MDT,250);
-digitalWrite(MDT, HIGH); //motor derecha//
+digitalWrite(MDT, HIGH);
 analogWrite(MIT,250);
-digitalWrite(MIT, HIGH); //motor izquierda//
-delay (1000);
- 
+digitalWrite(MIT, HIGH);
+delay (150);
+}
+}
+}
+
+if (S2 <= 3.5 && S4 <= 3.5) { //deteccion negro//
+  
+analogWrite(MDT,250);
+digitalWrite(MDT, HIGH);
+analogWrite(MIT,250);
+digitalWrite(MIT, HIGH);
+delay (150);
  }
- else {
-  analogWrite(MDT,200);
-digitalWrite(MDT, HIGH); //motor derecha//
-analogWrite(MIA,200);
-digitalWrite(MIA, HIGH); //motor izquierda//
-delay (100);
+ else //sensor atras// 
+ {
+  if (S4 < 3.5 ){
+
+     analogWrite(MDT,250);
+digitalWrite(MDT, HIGH);
+delay (150);
   }
- }
- } //detecta derecho//
+else //sensor adelante// 
+{ 
+
+if (S2 < 3.5 ){   
+analogWrite(MDA,250);
+digitalWrite(MDA, HIGH);
+delay (150);
+}
+
+else // Se sores en zona negra//
+{
+  analogWrite(MDT,250);
+digitalWrite(MDT, HIGH);
+analogWrite(MIT,250);
+digitalWrite(MIT, HIGH);
+delay (150);
+}
+}
+}
+
+
+
+if(D <= 4) //sensor ultrasonido//
+{
+    analogWrite(MDT,250);
+digitalWrite(MDT, HIGH);
+analogWrite(MIT,250);
+digitalWrite(MIT, HIGH);
+delay (150);}
+else 
+{
+    analogWrite(MDT,250);
+digitalWrite(MDT, HIGH);
+delay (150);
+
 }
 }
