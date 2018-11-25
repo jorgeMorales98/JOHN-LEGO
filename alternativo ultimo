@@ -1,0 +1,154 @@
+int M1 = 3; //motor hacia delante  derecha//
+int M2 = 5; //motor hacia atras derecha //
+int M3 = 6; //motor hacia delante izquierda //
+int M4 = 9; //motor hacia atras izquierda//
+int E = 4; // receptor //
+int T = 7; // disparador //
+float S1; // sensor izquierda adelante //
+float S2; // sensor derecha adelante //
+float S3; // sensor izquierda atras //
+float S4; // sensor derecha atras //
+
+void setup() {
+
+ pinMode (M1,OUTPUT);
+ pinMode (M2,OUTPUT);
+ pinMode (M3,OUTPUT);
+ pinMode (M4,OUTPUT); 
+pinMode (E,INPUT);
+pinMode (T,OUTPUT);
+delay (5000);
+}
+
+void loop() {
+float S1 =  0.004887*analogRead (1);
+float S2 =  0.004887*analogRead (2);
+float S3 =  0.004887*analogRead (3);
+float S4 =  0.004887*analogRead (4);
+
+if(S1 <=2 && S2 <=2 )
+{
+ adelante;
+  }
+  else 
+  {
+   if(S1 > 2)
+   {
+    derecha;
+    
+    } 
+    else 
+    {
+    if (S2 > 2 )
+    {
+izquierda;
+    
+    }
+else
+
+{
+atras;
+  }  
+}
+  }
+
+if(S3 <=2 && S4 <=2 )
+{
+ adelante;
+  }
+  else 
+  {
+   if(S3 > 2)
+   {
+    izquierda;
+    
+    } 
+    else 
+    {
+    if (S4 > 2 )
+    {
+derecha;
+    
+    }
+else
+
+{
+adelante;
+  }  
+}
+  }
+
+if (ultrasonido <=20)
+{adelante;
+}
+else
+{
+  derecha;
+  delay (750);
+  }
+}
+
+void adelante (){
+  
+analogWrite(M1,150);
+digitalWrite(M1,HIGH);
+analogWrite(M2,150);
+digitalWrite(M2,HIGH);
+ analogWrite(M3,150);
+digitalWrite(M3,LOW);
+analogWrite(M4,150);
+digitalWrite(M4,LOW);
+delay (1500);
+  }
+  
+  void atras ()
+  {
+  analogWrite(M1,150);
+digitalWrite(M1,LOW);
+analogWrite(M2,150);
+digitalWrite(M2,LOW);
+ analogWrite(M3,150);
+digitalWrite(M3,HIGH);
+analogWrite(M4,150);
+digitalWrite(M4,HIGH);
+delay (1500);
+  }
+
+  void derecha()
+  
+  {
+  analogWrite(M1,150);
+digitalWrite(M1,LOW);
+analogWrite(M2,150);
+digitalWrite(M2,HIGH);
+ analogWrite(M3,150);
+digitalWrite(M3,HIGH);
+analogWrite(M4,150);
+digitalWrite(M4,LOW);
+delay (1500);
+  }
+void izquierda()
+{
+
+    analogWrite(M1,150);
+digitalWrite(M1,HIGH);
+analogWrite(M2,150);
+digitalWrite(M2,LOW);
+ analogWrite(M3,150);
+digitalWrite(M3,LOW);
+analogWrite(M4,150);
+digitalWrite(M4,HIGH);
+delay (1500);
+  }  
+
+  void ultrasonido()
+  {
+  digitalWrite (T,LOW);
+delayMicroseconds (3);
+digitalWrite (T,HIGH);
+delayMicroseconds (10);
+digitalWrite (T,LOW);
+float tiempo= pulseIn (E,HIGH);
+float D = 0.017*tiempo;
+
+    }
